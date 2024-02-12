@@ -37,8 +37,10 @@ function getIntervalArray(start, end) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  const longerArr = arr1.length > arr2.length ? arr1 : arr2;
+  const shorterArr = arr2.length < arr1.length ? arr2 : arr1;
+  return longerArr.map((num, i) => num + (shorterArr[i] || 0));
 }
 
 /**
@@ -119,10 +121,13 @@ function getStringsLength(arr) {
  *   getAverage([ 1, 10, 100, 1000 ])  => 277,75
  *   getAverage([ 2, 3, 3 ])  => 2,67
  */
-function getAverage(/* arr */) {
-  throw new Error('Not implemented');
+function getAverage(arr) {
+  const sum = arr.reduce((acc, cur) => acc + cur, 0) / arr.length;
+  if (arr.length === 0) {
+    return 0;
+  }
+  return Math.round(sum * 100) / 100;
 }
-
 /**
  * Checks if all strings in an array have the same length.
  *
@@ -312,8 +317,8 @@ function selectMany(arr, childrenSelector) {
  *   calculateBalance([ [ 10, 8 ], [ 1, 5 ] ])  => (10 - 8) + (1 - 5) = 2 + -4 = -2
  *   calculateBalance([]) => 0
  */
-function calculateBalance(/* arr */) {
-  throw new Error('Not implemented');
+function calculateBalance(arr) {
+  return arr.reduce((acc, [income, expense]) => acc + income - expense, 0);
 }
 
 /**
@@ -328,8 +333,10 @@ function calculateBalance(/* arr */) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  return Array.from({ length: Math.ceil(arr.length / chunkSize) }, (_, index) =>
+    arr.slice(index * chunkSize, (index + 1) * chunkSize)
+  );
 }
 
 /**
@@ -398,8 +405,10 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (_, i) =>
+    Array.from({ length: n }, (v, x) => (x === i ? 1 : 0))
+  );
 }
 
 /**
@@ -413,8 +422,14 @@ function getIdentityMatrix(/* n */) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  const arr = numbers.map((elem, index) => {
+    if (elem % 2 !== 0) {
+      return index;
+    }
+    return -1;
+  });
+  return arr.filter((elem) => elem !== -1);
 }
 
 /**
@@ -476,8 +491,21 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let maxCount = 1;
+  nums.reduce((acc, elem, index, array) => {
+    if (index !== 0) {
+      if (elem > array[index - 1]) {
+        if (acc + 1 > maxCount) {
+          maxCount = acc + 1;
+        }
+        return acc + 1;
+      }
+      return 1;
+    }
+    return 1;
+  }, 1);
+  return maxCount;
 }
 
 /**
@@ -494,8 +522,10 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.flatMap((item, index) =>
+    Array.from({ length: index + 1 }, () => item)
+  );
 }
 
 /**
